@@ -10,7 +10,7 @@
     "notchII": "E",
     "notchIII": "V",
     "notchIV": "",
-    "notchPorValor": true
+    "notchPorValor": false
   },
   {
     "nombre": "Enigma I EN notch valor",
@@ -76,5 +76,18 @@
     "notchIII": "K",
     "notchIV": "",
     "notchPorValor": true
+  },
+  {
+    "nombre": "Enigma M4 EN 4 rotores",
+    "rotorI":    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+    "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+    "rotorIII":  "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+    "rotorIV":   "PLJGWRFVOIBHNSXUYEKDTZQAMC",
+    "reflector": "CVAQYRWZKUIOPTLMDFXNJBGSEH",
+    "notchI":  "Q",
+    "notchII": "E",
+    "notchIII": "V",
+    "notchIV": "J",
+    "notchPorValor": false
   }
 ]
