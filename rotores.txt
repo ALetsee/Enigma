@@ -1,6 +1,6 @@
 [
   {
-    "nombre": "Enigma I EN",
+    "nombre": "Ingles > NotchValor=F",
     "rotorI":    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
     "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
     "rotorIII":  "BDFHJLCPRTXVZNYEIWGAKMUSQO",
@@ -13,7 +13,7 @@
     "notchPorValor": false
   },
   {
-    "nombre": "Enigma I EN notch valor",
+    "nombre": "Ingles > NotchValor=T",
     "rotorI":    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
     "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
     "rotorIII":  "BDFHJLCPRTXVZNYEIWGAKMUSQO",
@@ -26,33 +26,7 @@
     "notchPorValor": true
   },
   {
-    "nombre": "Enigma M3 EN",
-    "rotorI":    "BDFHJLCPRTXVZNYEIWGAKMUSQO",
-    "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-    "rotorIII":  "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-    "rotorIV":   "",
-    "reflector": "FVPJIAOYEDRZXWGCTKUQSBNMHL",
-    "notchI":  "V",
-    "notchII": "E",
-    "notchIII": "Q",
-    "notchIV": "",
-    "notchPorValor": false
-  },
-  {
-    "nombre": "Enigma M3 EN notch valor",
-    "rotorI":    "BDFHJLCPRTXVZNYEIWGAKMUSQO",
-    "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-    "rotorIII":  "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-    "rotorIV":   "",
-    "reflector": "FVPJIAOYEDRZXWGCTKUQSBNMHL",
-    "notchI":  "V",
-    "notchII": "E",
-    "notchIII": "Q",
-    "notchIV": "",
-    "notchPorValor": true
-  },
-  {
-    "nombre": "Enigma ES",
+    "nombre": "Espanol > NotchValor=F",
     "rotorI":    "AWKIYXUNMCDEVÑFTPJHZQBOLRGS",
     "rotorII":   "ESXTCJÑKRHLDFIAQOWBZVGNPUMY",
     "rotorIII":  "PWOKDNLAUEÑJRZYFMQVITSCGXHB",
@@ -65,7 +39,7 @@
     "notchPorValor": false
   },
   {
-    "nombre": "Enigma ES notch valor",
+    "nombre": "Espanol > NotchValor=T",
     "rotorI":    "AWKIYXUNMCDEVÑFTPJHZQBOLRGS",
     "rotorII":   "ESXTCJÑKRHLDFIAQOWBZVGNPUMY",
     "rotorIII":  "PWOKDNLAUEÑJRZYFMQVITSCGXHB",
@@ -78,7 +52,7 @@
     "notchPorValor": true
   },
   {
-    "nombre": "Enigma M4 EN 4 rotores",
+    "nombre": "Ingles 4R > NotchValor=F",
     "rotorI":    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
     "rotorII":   "AJDKSIRUXBLHWTMCQGZNPYFVOE",
     "rotorIII":  "BDFHJLCPRTXVZNYEIWGAKMUSQO",

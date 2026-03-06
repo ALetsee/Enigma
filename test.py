@@ -311,7 +311,6 @@ def procesar(mensaje, clave, config, modo, tipo_alfa):
 
     return reconstruir_con_espacios(resultado, antes, trailing), None
 
-# ---------------------------------------------------------------------------
 
 ASCII_ART = r"""
                                                             
@@ -352,8 +351,9 @@ def menu_configs(configs, advertencias):
             print(f"  [!] {w}")
         print()
     header("SELECCION DE CONFIGURACION")
-    for i in range(len(configs)):
-        print(f"  [{i+1}]  Config {etiqueta_config(i)}")
+    for i, c in enumerate(configs):
+        nombre = c.get("nombre", f"Config {etiqueta_config(i)}")
+        print(f"  [{i+1}]  {nombre}")
     print()
     while True:
         sel = input("> ").strip()
@@ -361,26 +361,70 @@ def menu_configs(configs, advertencias):
             return configs[int(sel) - 1]
         print(f"  [!] Escribe un numero entre 1 y {len(configs)}.")
 
-def menu_alfabeto():
-    header("SELECCION DE ALFABETO")
-    print("  [1]  Ingles")
-    print("  [2]  Espanol")
-    print()
-    while True:
-        sel = input("> ").strip()
-        if sel == "1": return "EN"
-        if sel == "2": return "ES"
-        print("  [!] Escribe 1 o 2.")
+def inferir_alfabeto(config):
+    return "ES" if len(config["rotorI"]) == 27 else "EN"
 
-def menu_principal(etiqueta):
+def menu_principal(nombre):
     clear()
     print(ASCII_ART)
-    header(f"CONFIG {etiqueta}  //  MENU PRINCIPAL")
+    header(nombre)
     print("  [1]  Cifrar mensaje")
     print("  [2]  Descifrar mensaje")
     print("  [3]  Cambiar configuracion")
-    print("  [4]  Salir")
+    print("  [4]  Ayuda")
+    print("  [5]  Salir")
     print()
+
+def pantalla_ayuda(config, nombre):
+    notch_valor = config.get("notchPorValor", False)
+    uso_4 = tiene_cuarto_rotor(config)
+    modo_str = "ACTIVADO  (notchPorValor: true)" if notch_valor else "DESACTIVADO  (notchPorValor: false)"
+    rotores_str = "4 rotores" if uso_4 else "3 rotores"
+    alfa_str = "Espanol (27 chars, incluye Ñ)" if inferir_alfabeto(config) == "ES" else "Ingles (26 chars)"
+
+    clear()
+    print(ASCII_ART)
+    header("AYUDA")
+
+    print("  CONFIGURACION ACTIVA")
+    print(f"    {nombre}  |  {rotores_str}  |  {alfa_str}")
+    print(f"    notchPorValor : {modo_str}")
+    print()
+
+    print("  QUE ES notchPorValor")
+    print()
+    print("    Controla CUANDO y COMO avanzan los rotores")
+    print("    al cifrar cada letra.")
+    print()
+
+    print("  FALSE  (mecanismo historico real)")
+    print()
+    print("    Los rotores avanzan ANTES de cifrar,")
+    print("    segun la posicion visible en la ventana.")
+    print("    El rotor derecho avanza siempre.")
+    print("    El medio avanza si el derecho esta en su notch.")
+    print("    El izquierdo avanza si el medio esta en su notch.")
+    print("    Es predecible: el avance no depende del mensaje.")
+    print()
+
+    print("  TRUE  (modo no estandar)")
+    print()
+    print("    Los rotores avanzan DURANTE el cifrado,")
+    print("    cuando el valor en transito por el rotor")
+    print("    coincide con su notch (no la posicion visible).")
+    print("    Ocurre tanto en la ida como en la vuelta.")
+    print("    El avance depende del contenido del mensaje.")
+    print("    Descifrar requiere fuerza bruta por letra.")
+    print()
+
+    print("  IMPORTANTE")
+    print()
+    print("    Un mensaje cifrado con true SOLO se descifra")
+    print("    con true, y viceversa. Son incompatibles.")
+    print("    Con 4 rotores solo funciona false.")
+    print()
+
+    input("> ")
 
 def pantalla_operacion(modo):
     clear()
@@ -404,12 +448,16 @@ def main():
         etiqueta = etiqueta_config(idx)
         uso_4 = tiene_cuarto_rotor(config)
 
-        menu_principal(etiqueta)
+        nombre_config = config.get("nombre", f"Config {etiqueta}")
+        menu_principal(nombre_config)
         op = input("> ").strip()
 
-        if op == "4":
+        if op == "5":
             clear()
             break
+        if op == "4":
+            pantalla_ayuda(config, nombre_config)
+            continue
         if op == "3":
             config = menu_configs(configs, None)
             continue
@@ -417,9 +465,7 @@ def main():
             continue
 
         modo = "cifrar" if op == "1" else "descifrar"
-
-        pantalla_operacion(modo)
-        tipo_alfa = menu_alfabeto()
+        tipo_alfa = inferir_alfabeto(config)
 
         clear()
         print(ASCII_ART)
@@ -432,11 +478,21 @@ def main():
             continue
 
         min_letras = 4 if uso_4 else 3
-        clave = input(f"  Clave ({min_letras}+): ").strip()
-        if not clave:
-            print("\n  [!] La clave no puede estar vacia.")
-            input("\n> ")
-            continue
+        max_letras = min_letras
+
+        while True:
+            clave = input(f"  Clave ({max_letras} letras): ").strip()
+            if not clave:
+                print(f"\n  [!] La clave no puede estar vacia.")
+                continue
+            letras_validas = [c for c in clave.upper() if c in obtener_alfabeto(tipo_alfa)]
+            if len(letras_validas) < max_letras:
+                print(f"\n  [!] La clave necesita exactamente {max_letras} letras del alfabeto.")
+                continue
+            if len(letras_validas) > max_letras:
+                print(f"\n  [!] La clave solo puede tener {max_letras} letras (esta config tiene {max_letras} rotores).")
+                continue
+            break
 
         resultado, err = procesar(mensaje, clave, config, modo, tipo_alfa)
 
@@ -455,4 +511,7 @@ def main():
         input("\n> ")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\n  Saliendo.")
